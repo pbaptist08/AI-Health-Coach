@@ -1,1 +1,91 @@
+FitMind Strength – Data Model (MVP1)
 
+- User
+  - id
+  - email
+  - auth provider (from Supabase)
+  - created_at
+
+- UserProfile
+  - user_id (FK → User)
+  - display_name
+  - weight_unit (kg / lb)
+  - experience_level
+  - created_at
+
+- TrainingProfile
+  - id
+  - user_id (FK → User)
+  - days_per_week
+  - split_type
+  - session_length_minutes
+  - goal_focus (array / JSON)
+  - style_preference
+  - available_equipment (array / JSON)
+  - constraints (JSON)
+  - priority_muscles (array / JSON)
+  - raw_llm_input (JSON or text)   # optional, for debugging
+  - raw_llm_output (JSON)          # optional
+  - created_at
+
+- Program   # current active plan for a user
+  - id
+  - user_id (FK → User)
+  - training_profile_id (FK → TrainingProfile)
+  - name (e.g., "5-Day PPL+UL")
+  - start_date
+  - is_active (bool)
+  - created_at
+
+- ProgramWeekTemplate
+  - id
+  - program_id (FK → Program)
+  - week_index (e.g., 1 for first block – MVP1 can just use 1)
+  - metadata (JSON)   # optional, e.g., block info
+  - created_at
+
+- ProgramDayTemplate
+  - id
+  - week_template_id (FK → ProgramWeekTemplate)
+  - weekday (Mon..Sun)
+  - label ("Push", "Pull", "Legs", "Upper", "Full Body")
+  - primary_muscles (JSON array)
+  - created_at
+
+- ProgramDayExerciseTemplate
+  - id
+  - day_template_id (FK → ProgramDayTemplate)
+  - exercise_id (FK → ExerciseLibrary)
+  - order_index
+  - sets
+  - reps_scheme (e.g., "6-8", "8-10")
+  - created_at
+
+- ExerciseLibrary
+  - id
+  - name
+  - primary_muscle
+  - secondary_muscles (JSON array)
+  - equipment (e.g., "barbell", "dumbbell", "machine")
+  - is_active (bool)
+  - created_at
+
+- WorkoutSession   # actual logged session for a given day
+  - id
+  - user_id (FK → User)
+  - program_id (FK → Program)
+  - day_template_id (FK → ProgramDayTemplate, nullable if ad-hoc)
+  - date
+  - label (e.g., "Push", or "Back + Biceps")
+  - created_at
+
+- WorkoutSetLog
+  - id
+  - session_id (FK → WorkoutSession)
+  - exercise_id (FK → ExerciseLibrary)
+  - set_index
+  - weight_value
+  - weight_unit (kg / lb)
+  - reps
+  - done (bool)
+  - created_at
