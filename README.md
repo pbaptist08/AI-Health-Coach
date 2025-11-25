@@ -235,7 +235,7 @@ MVP1 separates **AI understanding** from **program generation**:
   "priority_muscles": ["back", "legs"]
 }
 
-### LLM Contract (Conceptual)
+**LLM Contract (Conceptual)**
 
 - **Input:**
   - System prompt (e.g., “You are a strength coach…”)
@@ -252,7 +252,7 @@ MVP1 separates **AI understanding** from **program generation**:
 
 ---
 
-### 2. Program Engine & Week Template
+**### 2. Program Engine & Week Template**
 
 **Responsibility:** Turn `TrainingProfile` into a concrete weekly program.
 
